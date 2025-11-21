@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Arya's Movie Musings</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>      
+
+/*Borders and margins*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* HTML and body full height*/
+html, body {
+  height: 100%;
+}
+
+/*Flexbox layout for page*/
+body{
+  background: #000080; 
+  display: flex;
+  flex-direction: column;
+  min-height: 150vh;
+}
+
+/*Header*/
+.banner {
+ background-image: url("Images/temporary-banner.jpg");   
+ background-size: cover; 
+ background-position: center;
+ background-repeat: no-repeat;   
+ width: 100%;
+ min-height: 200px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family:'Playfair Display', serif;
+ color: #FFFFFF;
+ text-align: center;
+}
+
+/*Footer*/
+footer{
+  display: flex;
+  justify-content: space-between;
+  background-color: #333333;
+  text-align: center; 
+  height: 97px;    
+  line-height: 75px;
+  width: 100%;
+  padding: 1rem;
+  color: #FFFFFF;
+}
+
+/*navbar container for logo */
+.navbar {
+  display: flex;
+  align-items: center;   
+  justify-content: space-between; 
+  background-color: #333333;
+  padding: 0 1rem;
+}
+
+/*logo styling */
+.logo img {
+  height: 50px;   
+  width: auto;
+}
+
+/*Main navigation menu*/  
+ul.topnav { 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #333333;
+  width: 100%;
+}
+
+/*Navigation float left*/
+ul.topnav li {
+  float: left;
+}
+
+/*Navigation font*/
+ul.topnav li a {
+  display: block;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  text-decoration: none;
+}
+
+/*Nav bar menu buttons alternating color 1*/
+ul.topnav li:nth-child(odd) a:hover{
+  background-color:#333333;
+  color:#ffa500;
+}
+
+/*Nav bar menu buttons alternating color 2*/
+ul.topnav li:nth-child(even) a:hover {
+  background-color: #333333;
+  color: #7df9ff;;
+}
+
+/*Navigation float right*/
+ul.topnav li.right {
+  float: right;
+}
+
+/*Basic mobile breakpoint*/
+@media screen and (max-width: 600px) {
+  ul.topnav {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  ul.topnav li {
+    width: 100%;
+    text-align: center;
+  }
+
+  ul.topnav li a {
+    text-align: center;
+    padding: 12px;
+    border-top: 1px solid #4A4A4A;
+  }
+
+  .dropdown-content {
+    position: static;
+    flex-direction: column;
+    min-width: 100%;
+    text-align: center;
+  }
+
+  .search-container {
+    margin-top: 10px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .reviews{
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .review-card{
+    padding: 1rem;
+  }
+
+  .review-card img {
+    padding: 1rem;
+    height: auto;
+    max-height: 200px;
+  }
+
+  .review-card h2 {
+    font-size: 1.1rem;             
+  }
+
+  .review-card p {
+    font-size: 0.9rem;             
+    line-height: 1.4;
+  }
+
+  body {
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .learn-more {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .logo img {
+    height: 30px;
+  }
+
+  footer {
+    flex-direction: column;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/*Basic tablet breakpoint*/
+@media screen and (max-width: 1024px) {
+  .reviews {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .review-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .review-card p {
+    font-size: 0.95rem;
+  }
+
+   .review-card img {
+    max-height: 250px;
+    height: auto;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-container {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}
+
+/*Desktop breakpoint*/
+@media screen and (min-width: 1200px) {
+  .reviews {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .review-card h2 {
+    font-size: 2rem;
+  }
+
+  .review-card p {
+    font-size: 1.1rem;
+  }
+
+  .review-card img {
+    max-height: 350px;   
+    height: auto;
+  }
+}
+
+/*Dropdown container*/
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/*Dropdown content box*/
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  background-color: #333333;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+
+  /*Horizontal submenu*/
+  flex-direction: row;
+  justify-content: flex-start;
+  min-width: 100%;
+}
+
+/*Show dropdown on hover*/
+.dropdown:hover .dropdown-content {
+  display: flex; /* keep flex when visible */
+}
+
+/*Movie Reviews submenu colors*/
+.reviews-menu > a {
+  background-color: #333333;
+  color: #7df9ff;
+}
+.reviews-menu .dropdown-content a:nth-child(1) {
+  background-color: #7df9ff; 
+  color: #333333;
+}
+.reviews-menu .dropdown-content a:nth-child(2) {
+  background-color: #7df9ff; 
+  color: #333333;
+}
+
+/* Best and Worst submenu colors*/
+.bestworst-menu > a {
+  background-color: #333333;
+  color: #ffa500; 
+}
+.bestworst-menu .dropdown-content a:nth-child(1) {
+  background-color: #ffa500; 
+  color: #FFFFFF;
+}
+.bestworst-menu .dropdown-content a:nth-child(2) {
+  background-color: #ffa500; 
+  color: #FFFFFF;
+}
+
+/*Lists and Guides submenu colors*/
+.lists-menu > a {
+  background-color: #333333;
+  color: #7df9ff; 
+}
+.lists-menu .dropdown-content a:nth-child(1) {
+  background-color: #7df9ff; 
+  color: #333333;
+}
+.lists-menu .dropdown-content a:nth-child(2) {
+  background-color: #7df9ff; 
+  color: #333333;
+}
+.lists-menu .dropdown-content a:nth-child(3) {
+  background-color: #7df9ff; 
+  color: #333333;
+}
+
+/*Search bar area in nav*/
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+/*Search bar in nav when hidden*/
+.search-input {
+  width: 0; /*Initially hidden or collapsed*/
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out; 
+}
+
+/*Search bar icon*/
+.search-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em; 
+}
+
+/*Expanded state when search bar is activated*/
+.search-input.expanded {
+  width: 200px; 
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/*Background*/  
+main { 
+  flex: 2;
+  font-family: Helvetica, serif;
+  background: #000080;
+  display: flex;
+  flex-direction:column;
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+}
+
+/*Movie review section*/
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+/*Review card*/
+.review-card { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #333;
+  border: 1px solid #ffa500;
+  color: #FFFFFF;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.review-card figure 
+{
+  margin-bottom: 1rem;
+}
+.Review card image {
+  width: 100%;  
+  height: auto;            
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.review-card h2 {
+  margin: 1rem 0;
+  font-size: 1.8rem;
+  color: #7DF9FF;  
+}
+
+.review-card p {
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+
+.review-card .learn-more {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #7DF9FF;
+  color: #333333;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.review-card .learn-more:hover {
+  background: #FFA500;
+  color: #FFFFFF;
+}
+
+/*Star rating system*/
+.checked {
+  color: orange;
+}
+
+.post-meta .tags a {
+  color: #000080;
+  text-decoration: none;
+}
+
+.post-meta .tags a:hover {
+  text-decoration: underline;
+}
+
+/*Load more button*/
+#load-more { 
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 1.5rem;
+  background: #7df9ff;
+  color: #333333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/*Load more button when hovering*/
+#load-more:hover {
+  background: #ffa500;
+  color: #FFFFFF;
+} 
+
+</style>
+</head>
+<body>
+    <!--Header Section-->
+    <header class="banner">
+        <!--Banner-->
+        <div class="logo">Arya's Movie Musings</div>
+    </header>
+    
+    <nav class="navbar">
+
+         <!--Logo on the left-->
+         <div class="logo">
+            <img src="Images/temporary-logo.jpg" alt="logo"/> 
+          </div>
+
+          <!--Responsive Navigation Section-->
+          <ul class ="topnav">
+             <li><a href="#">Home</a></li>
+
+             <!-- Dropdown: Movie Reviews -->
+              <li class="dropdown reviews-menu">
+                <a href="#">Movie Reviews</a>
+                 <div class="dropdown-content">
+                    <a href="#">Quick Bites</a>
+                    <a href="#">Deep Dives</a>
+                 </div>
+              </li>
+
+             <li><a href="#">Film Genres</a></li>
+             <li><a href="#">Arya's Top 20</a></li>
+
+             <!-- Dropdown: Best and Worst -->
+             <li class="dropdown bestworst-menu">
+                <a href="#">Best and Worst</a>
+                  <div class="dropdown-content">
+                    <a href="#">Monthly</a>
+                    <a href="#">Yearly</a>
+                 </div>
+             </li>
+
+               <!-- Dropdown: Lists and Guides -->
+              <li class="dropdown lists-menu">
+                <a href="#">Lists and Guides</a>
+                  <div class="dropdown-content">
+                    <a href="#">Film Series</a>
+                    <a href="#">Genre Spotlights</a>
+                    <a href="#">Streaming Recs</a>
+                 </div>
+             </li>
+
+             <li><a href="#">Movie News</a></li>
+             <li><a href="#">About</a></li>
+             <li><a href="#">Contact</a></li>
+
+          <div class="search-container">
+            <input type="text" class="search-input"placeholder="Search...">
+            <button class="search-icon">🔍</button>
+          </div>
+        </ul>
+    </nav>
+
+<!-- Main Content -->
+<main>
+  <!--Movie Reviews-->
+      <section id="reviews" class="reviews">
+
+         <article class="review-card">
+            <figure>
+                <img src="Images/temp-poster.jpg" alt="The Avengers poster">
+                <figcaption>Movie Review</figcaption>
+            </figure>
+             <h2>The Avengers</h2>
+             <!-- Blog metadata -->
+             <div class="post-meta">
+                <span class="date">Nov 19, 2025</span> |
+                <span class="star rating">
+                  <h3>Star Rating</h3>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </span> |
+                <span class="tags">
+                   <a href="#">Action</a> 
+                   <a href="#">Adventure</a>
+                   <a href="#">Superhero</a>
+                   <a href="#">Drama</a>
+                   <a href="#">Fantasy</a>
+                   <a href="#">Science Fiction</a>
+                   <a href="#">Comedy</a>
+                   <a href="#">Avengers Series</a>
+                   <a href="#">MCU</a>
+                   <a href="#">Marvel Cinematic Universe</a>
+                </span>
+            </div>
+               <p>Nick Fury and his spy agency S.H.I.E.L.D. recruit Tony Stark, Natasha Romanoff, Clint Barton, Bruce Banner, Thor, and Steve Rogers to form a team, called the Avengers, which is capable of stopping Thor's brother Loki from ruling and conquering Earth.</p>
+               <a href="#" class="learn-more">Read Full Review</a>
+          </article>
+
+          <article class="review-card">
+             <figure>
+                <img src="Images/temp-poster.jpg" alt="revenge of the sith poster">
+                <figcaption>Movie Review</figcaption>
+             </figure>
+              <h2>Star Wars: Episode III - Revenge of the Sith</h2>
+             <!-- Blog metadata -->
+             <div class="post-meta">
+                <span class="date">Nov 18, 2025</span> |
+                <span class="star rating">
+                  <h3>Star Rating</h3>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </span> |
+                 <span class="tags">
+                   <a href="#">Science Fiction</a>
+                   <a href="#">Action</a>
+                   <a href="#">Adventure</a>
+                   <a href="#">Drama</a>
+                   <a href="#">Star Wars</a>
+                   <a href="#">Star Wars Prequels</a>
+                </span>
+            </div>
+               <p> Anakin Skywalker, The Chosen One, falls to the dark side and become Darth Vader.</p>
+               <a href="#" class="learn-more">Read Full Review</a>
+          </article>
+
+        <article class="review-card">
+            <figure>
+                <img src="Images/temp-poster.jpg" alt="Goldfinger poster">
+                <figcaption>Movie Review</figcaption>
+            </figure>
+              <h2>Goldfinger</h2>
+             <!-- Blog metadata -->
+             <div class="post-meta">
+                <span class="date">Nov 19, 2025</span> |
+                <span class="star rating">
+                  <h3>Star Rating</h3>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </span> |
+                <span class="tags">
+                   <a href="#">Spy</a> 
+                   <a href="#">Action</a>
+                   <a href="#">Adventure</a>
+                   <a href="#">Thriller</a>
+                   <a href="#">Suspense</a>
+                   <a href="#">James Bond</a>
+                   <a href="#">James Bond Classic Continuity</a>
+                </span>
+            </div>
+               <p>James Bond investigates and tries to stop a gold-loving - and obsessed - villian from contaminating Fort Knox.</p>
+               <a href="#" class="learn-more">Read Full Review</a>
+          </article>  
+      </section>
+      <!-- Load More Button -->
+      <button id="load-more">Load More</button>
+</main>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Arya's Movie Musings</p>
+</footer>
+
+<script>
+// Search bar animation (unchanged)
+const searchIcon = document.querySelector('.search-icon');
+const searchInput = document.querySelector('.search-input');
+
+searchIcon.addEventListener('click', () => {
+    searchInput.classList.toggle('expanded');
+    if (searchInput.classList.contains('expanded')) {
+        searchInput.focus();
+    }
+});
+
+document.addEventListener('click', (event) => {
+    if (!searchIcon.contains(event.target) && !searchInput.contains(event.target)) {
+        searchInput.classList.remove('expanded');
+    }
+});
+
+// Posts array now includes rating + tags with hyperlinks
+const posts = [
+    {
+        title: "Inception",
+        date: "Nov 19, 2025",
+        rating: 5,
+        tags: [
+            { label: "Action", url: "#action" },
+            { label: "Drama", url: "#drama" },
+            { label: "Science Fiction", url: "#scifi" }
+        ],
+        image: "Images/temp-poster.jpg",
+        excerpt: "A thriller that explores dreams within dreams."
+    },
+    {
+        title: "Misery",
+        date: "Nov 20, 2025",
+        rating: 5,
+        tags: [
+            { label: "Horror", url: "#horror" },
+            { label: "Psychological Horror", url: "#psychological horror" },
+            { label: "Suspense", url: "#suspense" },
+            { label: "Stephen King", url: "#stephen king" }
+        ],
+        image: "Images/temp-poster.jpg",
+        excerpt: "Loony and obsessed fan kidnaps and keeps captive her favorite author to rewrite his book."
+    },
+    {
+        title: "The Dark Knight",
+        date: "Nov 15, 2025",
+        rating: 5,
+        tags: [
+            { label: "Action", url: "#action" },
+            { label: "Drama", url: "#drama" },
+            { label: "Superhero", url: "#superhero" },
+            { label: "Nolanverse", url: "#nolanverse" },
+            { label: "Batman", url: "#batman" }
+        ],
+        image: "Images/temp-poster.jpg",
+        excerpt: "Batman vs the Joker."
+    }
+];
+
+// DOM references
+const reviewsSection = document.getElementById("reviews");
+const loadMoreBtn = document.getElementById("load-more");
+
+// Load 2 posts at a time
+let postsPerPage = 2;
+let currentIndex = 0;
+
+// Rendering stars
+function renderStars(rating) {
+    let stars = "";
+    for (let i = 0; i < 5; i++) {
+        stars += `<span class="fa fa-star ${i < rating ? "checked" : ""}"></span>`;
+    }
+    return stars;
+}
+
+//Rendering tags with hyperlinks
+function renderTags(tags) {
+    return tags.map(tag => `<a href="${tag.url}">${tag.label}</a>`).join(" ");
+}
+
+// Render posts dynamically
+function renderPosts() {
+    const nextPosts = posts.slice(currentIndex, currentIndex + postsPerPage);
+
+    nextPosts.forEach(post => {
+        const article = document.createElement("article");
+        article.classList.add("review-card");
+
+        article.innerHTML = `
+            <figure>
+                <img src="${post.image}" alt="Movie Poster">
+                <figcaption>Movie Review</figcaption>
+            </figure>
+            <h2>${post.title}</h2>
+            <div class="post-meta">
+                <span class="date">${post.date}</span> |
+                <span class="author">${post.author}</span> |
+                <span class="star rating"><h3>Star Rating</h3> ${renderStars(post.rating)}</span> |
+                <span class="tags">${renderTags(post.tags)}</span>
+            </div>
+            <p>${post.excerpt}</p>
+            <a href="#" class="learn-more">Read Full Review</a>
+        `;
+
+        reviewsSection.appendChild(article);
+    });
+
+    currentIndex += postsPerPage;
+
+    if (currentIndex >= posts.length) {
+        loadMoreBtn.style.display = "none";
+    }
+}
+
+// First click loads posts
+loadMoreBtn.addEventListener("click", renderPosts);
+</script>
+</body>
+</html>
